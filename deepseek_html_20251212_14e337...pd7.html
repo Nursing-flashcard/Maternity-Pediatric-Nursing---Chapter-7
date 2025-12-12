@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternity & Pediatric Nursing - Chapter 7 Flashcards</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f9c5d1 0%, #f3a8c2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            height: 95vh;
+            max-height: 95vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f3a8c2, #e691b2);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M50,30 Q65,20 80,30 T95,50 T80,70 T50,90 T20,70 T5,50 T20,30 T50,30 Z" fill="white"/></svg>');
+        }
+        
+        .header h1 {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .header .subtitle {
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .progress {
+            background: #d988a9;
+            height: 8px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #f3a8c2, #e691b2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .flashcard {
+            padding: clamp(10px, 3vw, 20px);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff5f7;
+            overflow-y: auto;
+        }
+        
+        .question-container {
+            display: flex;
+            gap: clamp(10px, 2vw, 15px);
+            align-items: flex-start;
+            margin-bottom: clamp(10px, 2vw, 15px);
+        }
+        
+        .question-icon {
+            background: #f3a8c2;
+            color: white;
+            width: clamp(35px, 8vw, 50px);
+            height: clamp(35px, 8vw, 50px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(243, 168, 194, 0.3);
+        }
+        
+        .question {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            line-height: 1.6;
+            color: #4a2c3d;
+            flex-grow: 1;
+            font-weight: 500;
+        }
+        
+        .multiple-select-indicator {
+            background: #e74c3c;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 1.5vw, 10px);
+            margin-bottom: clamp(10px, 2vw, 20px);
+            flex: 1;
+        }
+        
+        .option {
+            padding: clamp(10px, 2vw, 14px) clamp(12px, 2.5vw, 18px);
+            border: 2px solid #ffe5ec;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: clamp(8px, 1.5vw, 10px);
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+        
+        .option:hover {
+            background: #ffe5ec;
+            border-color: #f3a8c2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .option-letter {
+            background: #ffe5ec;
+            color: #4a2c3d;
+            width: clamp(24px, 5vw, 28px);
+            height: clamp(24px, 5vw, 28px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+        }
+        
+        /* CORRECT - ALWAYS GREEN (unchanged for functionality) */
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .option.correct .option-letter {
+            background: #28a745;
+            color: white;
+        }
+        
+        /* INCORRECT - ALWAYS RED (unchanged for functionality) */
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .option.incorrect .option-letter {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .feedback {
+            padding: clamp(12px, 2.5vw, 16px);
+            border-radius: 12px;
+            margin-bottom: clamp(10px, 2vw, 16px);
+            display: none;
+            align-items: center;
+            gap: clamp(8px, 1.5vw, 12px);
+            font-weight: 500;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            display: flex;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            display: flex;
+        }
+        
+        .feedback-icon {
+            font-size: clamp(1.2rem, 3vw, 1.4rem);
+            flex-shrink: 0;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(12px, 2.5vw, 16px) clamp(16px, 3vw, 24px);
+            background: #ffe5ec;
+            border-top: 1px solid #f9c5d1;
+            flex-shrink: 0;
+        }
+        
+        .counter {
+            font-weight: bold;
+            color: #4a2c3d;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+        
+        .btn {
+            padding: clamp(10px, 2vw, 12px) clamp(15px, 2.5vw, 20px);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: clamp(6px, 1vw, 8px);
+            font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+            white-space: nowrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f3a8c2, #e691b2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(243, 168, 194, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f9c5d1, #f3a8c2);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(249, 197, 209, 0.3);
+        }
+        
+        .rationale {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid #ffd43b;
+            border-radius: 12px;
+            padding: clamp(12px, 2.5vw, 16px);
+            margin-top: clamp(8px, 1.5vw, 12px);
+            display: none;
+        }
+        
+        .rationale.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .rationale h4 {
+            color: #856404;
+            margin-bottom: clamp(6px, 1.2vw, 10px);
+            display: flex;
+            align-items: center;
+            gap: clamp(6px, 1.2vw, 8px);
+            font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+        }
+        
+        .rationale p {
+            color: #856404;
+            line-height: 1.6;
+            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stats {
+            display: flex;
+            gap: clamp(8px, 1.5vw, 15px);
+            justify-content: center;
+            margin-top: clamp(4px, 1vw, 10px);
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.3);
+            padding: clamp(5px, 1vw, 6px) clamp(8px, 1.8vw, 12px);
+            border-radius: 20px;
+            font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+            white-space: nowrap;
+        }
+        
+        /* Cancel selection button */
+        .cancel-selection {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            margin: 0 auto clamp(10px, 2vw, 15px) auto;
+            display: none;
+        }
+        
+        .cancel-selection:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .cancel-selection.show {
+            display: flex;
+        }
+        
+        /* Study mode controls */
+        .study-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .study-btn {
+            padding: 8px 16px;
+            border: 2px solid #f3a8c2;
+            background: white;
+            color: #f3a8c2;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .study-btn.active {
+            background: #f3a8c2;
+            color: white;
+        }
+        
+        .study-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(243, 168, 194, 0.2);
+        }
+        
+        /* Multiple select instructions */
+        .multiple-select-instructions {
+            text-align: center;
+            color: #e74c3c;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .score-display {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: rgba(255,255,255,0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👩‍⚕️ Maternity & Pediatric Nursing - Chapter 7</h1>
+            <div class="subtitle">Benign Disorders of the Female Reproductive Tract | 25 Questions</div>
+            <div class="stats">
+                <div class="stat">📚 Test Bank Questions</div>
+                <div class="stat">🎯 Detailed Rationales</div>
+                <div class="stat">🔢 Multiple-Answer Questions</div>
+                <div class="stat">↩️ Cancel Wrong Answers</div>
+            </div>
+            <div class="score-display" id="scoreDisplay">Score: 0/25</div>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="flashcard">
+            <div class="study-controls">
+                <button class="study-btn active" id="allQuestionsBtn" onclick="setStudyMode('all')">All Questions</button>
+                <button class="study-btn" id="multipleSelectBtn" onclick="setStudyMode('multiple')">Multiple-Select Only</button>
+                <button class="study-btn" id="singleSelectBtn" onclick="setStudyMode('single')">Single-Select Only</button>
+                <button class="study-btn" id="incorrectBtn" onclick="setStudyMode('incorrect')">Review Incorrect</button>
+            </div>
+            
+            <div class="question-container">
+                <div class="question-icon">?</div>
+                <div class="question" id="question"></div>
+                <div class="multiple-select-indicator" id="multipleSelectIndicator" style="display: none;">Multiple Answers</div>
+            </div>
+            
+            <div class="multiple-select-instructions" id="multipleSelectInstructions" style="display: none;">
+                💡 Select ALL correct answers - This question has multiple correct options
+            </div>
+            
+            <div class="options" id="options"></div>
+            
+            <!-- Cancel Selection Button - Only shows for wrong answers -->
+            <button class="btn cancel-selection" id="cancelBtn" onclick="cancelSelection()">
+                ↩️ Cancel Selection
+            </button>
+            
+            <div class="feedback" id="feedback">
+                <div class="feedback-icon" id="feedbackIcon"></div>
+                <div id="feedbackText"></div>
+            </div>
+            <div class="rationale" id="rationale">
+                <h4>💡 Rationale:</h4>
+                <p id="rationaleText"></p>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousCard()">
+                ⬅️ Previous
+            </button>
+            <div class="counter" id="counter">1/25</div>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextCard()">
+                Next ➡️
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. A woman is admitted for repair of cystocele and rectocele. She has nine living children. In taking her health history, which of the following would the nurse expect to find?",
+                options: [
+                    "Sporadic vaginal bleeding accompanied by chronic pelvic pain",
+                    "Heavy leukorrhea with vulvar pruritus",
+                    "Menstrual irregularities and hirsutism on the chin",
+                    "Stress incontinence with feeling of low abdominal pressure"
+                ],
+                correct: 3,
+                rationale: "Stress incontinence with a feeling of low abdominal pressure is common with pelvic organ prolapse like cystocele and rectocele, especially in multiparous women. These conditions result from weakened pelvic floor muscles supporting the bladder and rectum."
+            },
+            {
+                question: "2. To assist the woman in regaining control of the urinary sphincter for urinary incontinence, the nurse should teach the client to do which of the following?",
+                options: [
+                    "Perform Kegel exercises daily.",
+                    "Void every hour while awake.",
+                    "Limit her intake of fluid.",
+                    "Take a laxative every night."
+                ],
+                correct: 0,
+                rationale: "Kegel exercises strengthen the pelvic floor muscles, which support the urethra and bladder neck, helping to control urinary incontinence. Frequent voiding may lead to small bladder capacity, and limiting fluids can cause dehydration."
+            },
+            {
+                question: "3. When developing the plan of care for a woman who has had an abdominal hysterectomy, which of the following would be contraindicated?",
+                options: [
+                    "Ambulating the client",
+                    "Massaging the client's legs",
+                    "Applying elasticized stockings",
+                    "Encouraging range-of-motion exercises"
+                ],
+                correct: 1,
+                rationale: "Massaging the legs after surgery is contraindicated due to the risk of dislodging a potential thrombus and causing a pulmonary embolism. Early ambulation, compression stockings, and ROM exercises are encouraged to prevent DVT."
+            },
+            {
+                question: "4. Which of the following would the nurse include when teaching women about preventing pelvic support disorders?",
+                options: [
+                    "Performing Kegel isometric exercises",
+                    "Consuming low-fiber diets",
+                    "Using hormone replacement",
+                    "Voiding every 2 hours"
+                ],
+                correct: 0,
+                rationale: "Kegel exercises strengthen the pelvic floor muscles and help prevent pelvic support disorders like prolapse. High-fiber diets prevent constipation and straining, which can weaken pelvic muscles. Voiding every 2 hours isn't a preventative measure."
+            },
+            {
+                question: "5. A client is diagnosed with an enterocele. The nurse interprets this condition as:",
+                options: [
+                    "Protrusion of the posterior bladder wall downward through the anterior vaginal wall",
+                    "Sagging of the rectum with pressure exerted against the posterior vaginal wall",
+                    "Bulging of the small intestine through the posterior vaginal wall",
+                    "Descent of the uterus through the pelvic floor into the vagina"
+                ],
+                correct: 2,
+                rationale: "An enterocele is a herniation of the small intestine into the upper posterior vaginal wall, often associated with pelvic organ prolapse and sometimes seen after hysterectomy."
+            },
+            {
+                question: "6. A woman is scheduled for an anterior and posterior colporrhaphy as treatment for a cystocele. When the nurse is explaining this treatment to the client, which of the following descriptions would be most appropriate to include?",
+                options: [
+                    "\"This procedure helps to tighten the vaginal wall in the front and back so that your bladder and urethra are in the proper position.\"",
+                    "\"Your uterus will be removed through your vagina, helping to relieve the organ that is putting the pressure on your bladder.\"",
+                    "\"This is a series of exercises that you will learn to do so that you can strengthen your bladder muscles.\"",
+                    "\"These are plastic devices that your physician will insert into your vagina to provide support to the uterus and keep it in the proper position.\""
+                ],
+                correct: 0,
+                rationale: "An anterior and posterior colporrhaphy is a surgical repair that reinforces the anterior and posterior vaginal walls to correct cystocele (bladder prolapse) and rectocele (rectal prolapse)."
+            },
+            {
+                question: "7. The nurse would be least likely to find which of the following in a client with uterine fibroids?",
+                options: [
+                    "Regularly shaped, shrunken uterus",
+                    "Acute pelvic pain",
+                    "Menorrhagia",
+                    "Complaints of bloating"
+                ],
+                correct: 0,
+                rationale: "Uterine fibroids (leiomyomas) typically cause an enlarged, irregularly shaped uterus, not a shrunken one. They can cause menorrhagia, pelvic pain/pressure, and bloating due to their size."
+            },
+            {
+                question: "8. A client with polycystic ovarian syndrome (PCOS) is receiving oral contraceptives as part of her treatment plan. The nurse understands that the rationale for this therapy is to:",
+                options: [
+                    "Restore menstrual regularity",
+                    "Induce ovulation",
+                    "Improve insulin uptake",
+                    "Alleviate hirsutism"
+                ],
+                correct: 0,
+                rationale: "Oral contraceptives help regulate menstrual cycles in PCOS by providing consistent hormone levels, reducing androgen production, and inducing regular withdrawal bleeds. While they may help hirsutism, the primary goal for many is cycle regulation."
+            },
+            {
+                question: "9. When teaching a woman how to perform Kegel exercises, the nurse explains that these exercises are designed to strengthen which muscles?",
+                options: [
+                    "Gluteus",
+                    "Lower abdominal",
+                    "Pelvic floor",
+                    "Diaphragmatic"
+                ],
+                correct: 2,
+                rationale: "Kegel exercises specifically target the pubococcygeus and other pelvic floor muscles, which support the bladder, uterus, and rectum."
+            },
+            {
+                question: "10. A postmenopausal woman with uterine prolapse is being fitted with a pessary. The nurse would be most alert for which side effect?",
+                options: [
+                    "Increased vaginal discharge",
+                    "Urinary tract infection",
+                    "Vaginitis",
+                    "Vaginal ulceration"
+                ],
+                correct: 3,
+                rationale: "Vaginal ulceration or erosion is a serious potential side effect of pessary use if it's not properly fitted, cleaned, or monitored. Regular follow-up is essential to check for tissue damage."
+            },
+            {
+                question: "11. When preparing the discharge teaching plan for the woman who had surgery to correct pelvic organ prolapse, which of the following would the nurse include?",
+                options: [
+                    "Care of the indwelling catheter at home",
+                    "Emphasis on coughing to prevent complications",
+                    "Return to usual activity level in a few days",
+                    "Daily douching with dilute vinegar solution"
+                ],
+                correct: 0,
+                rationale: "Some women may go home with a catheter after prolapse surgery. Proper catheter care and monitoring for UTI symptoms are essential teaching points."
+            },
+            {
+                question: "12. A woman with polycystic ovary syndrome tells the nurse, 'I hate this disease. Just look at me! I have no hair on the front of my head but I've got hair on my chin and upper lip. I don't feel like a woman anymore.' Further assessment reveals breast atrophy and increased muscle mass. Which nursing diagnosis would most likely be a priority?",
+                options: [
+                    "Situational low self-esteem related to masculinization effects of the disease",
+                    "Social isolation related to feelings about appearance",
+                    "Risk for suicide related to effects of condition and fluctuating hormone levels",
+                    "Ineffective peripheral tissue perfusion related to effects of disease on vasculature"
+                ],
+                correct: 0,
+                rationale: "The client's distress about her appearance and femininity points to self-esteem issues as an immediate priority. While social isolation and emotional distress are concerns, self-esteem is fundamental."
+            },
+            {
+                question: "13. After teaching a local woman's group about incontinence, the nurse determines that the teaching was successful when the group identifies which of the following as characteristic of stress incontinence?",
+                options: [
+                    "Feeling a strong need to void",
+                    "Passing a large amount of urine",
+                    "Most common in women after childbirth",
+                    "Sneezing may be an initiating stimulus"
+                ],
+                correct: 3,
+                rationale: "Stress incontinence involves leakage with increased abdominal pressure from coughing, sneezing, laughing, or exercising. It's common after childbirth due to pelvic floor weakening."
+            },
+            {
+                question: "14. A woman is being evaluated for pelvic organ prolapse. A postvoid residual urine specimen is obtained via a catheter. Which residual volume finding would lead the nurse to suspect the need for further testing?",
+                options: [
+                    "50 mL",
+                    "75 mL",
+                    "100 mL",
+                    "120 mL"
+                ],
+                correct: 3,
+                rationale: "A postvoid residual (PVR) >100 mL suggests incomplete bladder emptying and may indicate urinary retention, requiring further urodynamic testing. Normal PVR is generally <50-100 mL."
+            },
+            {
+                question: "15. After teaching a woman with pelvic organ prolapse about dietary and lifestyle measures, which of the following statements would indicate the need for additional teaching?",
+                options: [
+                    "\"If I wear a girdle, it will help support the muscles in the area.\"",
+                    "\"I should take up jogging to make sure I exercise enough.\"",
+                    "\"I will try to drink at least 64 oz of fluid each day.\"",
+                    "\"I need to increase the amount of fiber I eat every day.\""
+                ],
+                correct: 1,
+                rationale: "High-impact exercise like jogging can increase abdominal pressure and worsen prolapse. Low-impact activities like walking or swimming are better. Adequate hydration and fiber prevent constipation and straining."
+            },
+            {
+                question: "16. After teaching a group of students about genital fistulas, the instructor determines that the teaching was successful when the students identify which of the following as a major cause?",
+                options: [
+                    "Radiation therapy",
+                    "Congenital anomaly",
+                    "Female genital cutting",
+                    "Bartholin's gland abscess"
+                ],
+                correct: 0,
+                rationale: "Radiation therapy for pelvic cancers can cause tissue necrosis and fistula formation (e.g., vesicovaginal or rectovaginal fistulas). Obstetric trauma is another common cause."
+            },
+            {
+                question: "17. A nurse is providing care to a female client receiving treatment for a Bartholin's cyst. The client has had a small loop of plastic tubing secured in place to allow for drainage. The nurse instructs the client that she will have a follow-up appointment for removal of the plastic tubing at which time?",
+                options: [
+                    "1 week",
+                    "2 weeks",
+                    "3 weeks",
+                    "4 weeks"
+                ],
+                correct: 3,
+                rationale: "After Word catheter placement for Bartholin's cyst/abscess, the catheter typically remains for 4-6 weeks to allow epithelialization of a new duct and prevent recurrence."
+            },
+            {
+                question: "18. After undergoing diagnostic testing, a woman is diagnosed with a corpus luteum cyst. The nurse anticipates that the woman will require:",
+                options: [
+                    "Biopsy",
+                    "No treatment",
+                    "Oral contraceptives",
+                    "Glucophage"
+                ],
+                correct: 1,
+                rationale: "Corpus luteum cysts are functional cysts that often resolve spontaneously within 1-2 menstrual cycles. They typically don't require intervention unless large, symptomatic, or persisting."
+            },
+            {
+                question: "19. A nurse is teaching a client how to perform Kegel exercises. Which of the following would the nurse include? (Select all that apply.)",
+                options: [
+                    "\"Squeeze your rectal muscles as if you are trying to avoid passing flatus.\"",
+                    "\"Tighten your pubococcygeal muscles for a count of 10.\"",
+                    "\"Contract and relax your pubococcygeal muscles rapidly 10 times.\"",
+                    "\"Try bearing down for about 10 seconds for no more than 5 times.\"",
+                    "\"Do these exercises at least 5 times every hour.\""
+                ],
+                correct: [0, 1, 2],
+                rationale: "Proper Kegel technique involves squeezing as if stopping urine/flatus, holding for up to 10 seconds, and rapid contractions. Bearing down (Valsalva) is incorrect and may worsen prolapse. Frequent, consistent practice is key but not necessarily hourly."
+            },
+            {
+                question: "20. After teaching a group of students about pelvic organ prolapse, the instructor determines that the teaching was successful when the group identifies leiomyomas as which of the following?",
+                options: [
+                    "Cysts",
+                    "Pelvic organ prolapse",
+                    "Fistula",
+                    "Fibroid"
+                ],
+                correct: 3,
+                rationale: "Leiomyomas are benign smooth muscle tumors of the uterus, commonly called fibroids. They are not cysts, prolapse, or fistulas."
+            },
+            {
+                question: "21. A nurse is assessing a female client and suspects that the client may have endometrial polyps based on which of the following?",
+                options: [
+                    "Bleeding after intercourse",
+                    "Vaginal discharge",
+                    "Bleeding between menses",
+                    "Metrorrhagia"
+                ],
+                correct: 3,
+                rationale: "Metrorrhagia (irregular, intermenstrual bleeding) is a classic symptom of endometrial polyps. They can also cause menorrhagia or postmenopausal bleeding."
+            },
+            {
+                question: "22. After teaching a group of students about ovarian cysts, the instructor determines that the teaching was successful when the students identify which type of cyst as being associated with hydatiform mole?",
+                options: [
+                    "Theca-lutein cyst",
+                    "Corpus luteum cyst",
+                    "Follicular cyst",
+                    "Polycystic ovarian syndrome"
+                ],
+                correct: 0,
+                rationale: "Theca-lutein cysts (hyperreactio luteinalis) are associated with high hCG levels, as seen in gestational trophoblastic disease (hydatidiform mole) and multiple pregnancies."
+            },
+            {
+                question: "23. A nurse is reading a journal article about care of the woman with pelvic organ prolapse. The nurse would expect to find information related to which of the following? (Select all that apply.)",
+                options: [
+                    "Rectocele",
+                    "Fecal incontinence",
+                    "Cystocele",
+                    "Urinary incontinence",
+                    "Enterocele"
+                ],
+                correct: [0, 2, 4],
+                rationale: "Pelvic organ prolapse includes cystocele (bladder), rectocele (rectum), and enterocele (intestine). While urinary and fecal incontinence often coexist with prolapse, they are separate conditions."
+            },
+            {
+                question: "24. A nurse is reviewing the medical record of a client. Which of the following would lead the nurse to suspect that the client is experiencing polycystic ovarian syndrome? (Select all that apply)",
+                options: [
+                    "Decreased androgen levels",
+                    "Elevated blood insulin levels",
+                    "Anovulation",
+                    "Waist circumference of 32 inches",
+                    "Triglyceride level of 175 mg/dL",
+                    "High-density lipoprotein level of 40 mg/dL"
+                ],
+                correct: [1, 2, 4, 5],
+                rationale: "PCOS features include insulin resistance (elevated insulin), anovulation, dyslipidemia (elevated triglycerides, low HDL), and often central obesity (waist >35 inches). Androgens are typically elevated, not decreased."
+            },
+            {
+                question: "25. A group of students are preparing a class presentation about polyps. Which of the following would the students most likely include in the presentation?",
+                options: [
+                    "Polyps are rarely the result of an infection.",
+                    "Endocervical polyps commonly appear after menarche.",
+                    "Cervical polyps are more common than endocervical polyps.",
+                    "Endocervical polyps are most common in women in their 50s."
+                ],
+                correct: 3,
+                rationale: "Endocervical polyps are most frequently seen in perimenopausal women (40s-50s) and are often benign. They can be associated with inflammation/infection. Cervical polyps are less common than endocervical ones."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let selectedOption = null;
+        let score = 0;
+        let answers = Array(questions.length).fill(null);
+        let incorrectQuestions = [];
+        let studyMode = 'all'; // 'all', 'multiple', 'single', 'incorrect'
+        let filteredQuestions = [...questions];
+
+        function updateScoreDisplay() {
+            const correctCount = questions.reduce((count, question, index) => {
+                if (answers[index] === null || answers[index] === undefined) return count;
+                
+                if (Array.isArray(question.correct)) {
+                    const selected = answers[index] || [];
+                    const allCorrect = question.correct.every(c => selected.includes(c));
+                    const noIncorrect = selected.every(s => question.correct.includes(s));
+                    return allCorrect && noIncorrect ? count + 1 : count;
+                } else {
+                    return answers[index] === question.correct ? count + 1 : count;
+                }
+            }, 0);
+            
+            document.getElementById('scoreDisplay').textContent = `Score: ${correctCount}/${questions.length}`;
+            return correctCount;
+        }
+
+        function setStudyMode(mode) {
+            studyMode = mode;
+            
+            // Update button states
+            document.querySelectorAll('.study-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(mode + 'Btn').classList.add('active');
+            
+            // Filter questions based on mode
+            switch(mode) {
+                case 'all':
+                    filteredQuestions = [...questions];
+                    break;
+                case 'multiple':
+                    filteredQuestions = questions.filter(q => Array.isArray(q.correct) && q.correct.length > 1);
+                    break;
+                case 'single':
+                    filteredQuestions = questions.filter(q => !Array.isArray(q.correct) || q.correct.length === 1);
+                    break;
+                case 'incorrect':
+                    filteredQuestions = questions.filter((_, index) => incorrectQuestions.includes(index));
+                    if (filteredQuestions.length === 0) {
+                        alert('No incorrect questions to review yet!');
+                        filteredQuestions = [...questions];
+                    }
+                    break;
+            }
+            
+            currentQuestion = 0;
+            loadQuestion();
+        }
+
+        function isMultipleSelectQuestion(question) {
+            return Array.isArray(question.correct) && question.correct.length > 1;
+        }
+
+        function loadQuestion() {
+            if (filteredQuestions.length === 0) {
+                document.getElementById('question').textContent = "No questions available for the selected study mode.";
+                document.getElementById('options').innerHTML = '';
+                document.getElementById('counter').textContent = `0/0`;
+                return;
+            }
+
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            document.getElementById('question').textContent = question.question;
+            document.getElementById('counter').textContent = `${currentQuestion + 1}/${filteredQuestions.length}`;
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            
+            // Show/hide multiple select indicators
+            const isMultiple = isMultipleSelectQuestion(question);
+            document.getElementById('multipleSelectIndicator').style.display = isMultiple ? 'block' : 'none';
+            document.getElementById('multipleSelectInstructions').style.display = isMultiple ? 'block' : 'none';
+            
+            // Load options
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionElement.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Reset feedback and rationale
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('rationale').className = 'rationale';
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = currentQuestion === filteredQuestions.length - 1 ? 'Finish ➡️' : 'Next ➡️';
+            
+            // Check if we have a stored answer for this question
+            const storedAnswer = answers[originalIndex];
+            document.getElementById('nextBtn').disabled = storedAnswer === null || storedAnswer === undefined;
+            
+            // Reset cancel button visibility
+            document.getElementById('cancelBtn').classList.remove('show');
+            
+            // If this question was already answered, show the answer
+            if (storedAnswer !== null && storedAnswer !== undefined) {
+                if (Array.isArray(storedAnswer)) {
+                    // Multiple selection question
+                    storedAnswer.forEach(index => {
+                        selectOption(index, true);
+                    });
+                } else {
+                    // Single selection question
+                    selectOption(storedAnswer, true);
+                }
+            }
+            
+            // Update score display
+            updateScoreDisplay();
+        }
+
+        function selectOption(index, fromMemory = false) {
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            // Check if this is a multiple selection question
+            if (isMultipleSelectQuestion(question)) {
+                // Multiple selection logic
+                if (!fromMemory) {
+                    if (!answers[originalIndex]) {
+                        answers[originalIndex] = [];
+                    }
+                    
+                    const optionIndex = answers[originalIndex].indexOf(index);
+                    if (optionIndex === -1) {
+                        answers[originalIndex].push(index);
+                    } else {
+                        answers[originalIndex].splice(optionIndex, 1);
+                    }
+                }
+                
+                highlightSelectedOptions();
+                showFeedbackForMultiple();
+                
+                // Enable next button if at least one option is selected
+                document.getElementById('nextBtn').disabled = !answers[originalIndex] || answers[originalIndex].length === 0;
+                updateScoreDisplay();
+                return;
+            }
+            
+            // Single selection logic
+            if (selectedOption !== null && !fromMemory) return;
+            
+            if (!fromMemory) {
+                selectedOption = index;
+                answers[originalIndex] = index;
+            }
+            
+            highlightSelectedOption(index);
+            showFeedback(index);
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+            updateScoreDisplay();
+        }
+
+        function highlightSelectedOption(index) {
+            const options = document.querySelectorAll('.option');
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            options.forEach((option, i) => {
+                option.classList.remove('correct', 'incorrect');
+                
+                if (i === index) {
+                    // ALWAYS show correct answers in GREEN
+                    if (i === question.correct) {
+                        option.classList.add('correct');
+                        if (!answers[originalIndex]) score++;
+                        document.getElementById('cancelBtn').classList.remove('show');
+                        
+                        // Remove from incorrect questions if it was there
+                        const incorrectIndex = incorrectQuestions.indexOf(originalIndex);
+                        if (incorrectIndex > -1) {
+                            incorrectQuestions.splice(incorrectIndex, 1);
+                        }
+                    } else {
+                        // ALWAYS show incorrect answers in RED
+                        option.classList.add('incorrect');
+                        // Also highlight the correct answer in GREEN
+                        options[question.correct].classList.add('correct');
+                        document.getElementById('cancelBtn').classList.add('show');
+                        
+                        // Add to incorrect questions
+                        if (!incorrectQuestions.includes(originalIndex)) {
+                            incorrectQuestions.push(originalIndex);
+                        }
+                    }
+                }
+            });
+        }
+
+        function highlightSelectedOptions() {
+            const options = document.querySelectorAll('.option');
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            const selectedIndices = answers[originalIndex] || [];
+            
+            // First, highlight ALL correct answers in GREEN
+            question.correct.forEach(correctIndex => {
+                options[correctIndex].classList.add('correct');
+            });
+            
+            // Then, highlight selected options
+            options.forEach((option, i) => {
+                if (selectedIndices.includes(i)) {
+                    // If selected but incorrect, highlight in RED
+                    if (!question.correct.includes(i)) {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            // Check if answer is correct and update score/tracking
+            const allCorrectSelected = question.correct.every(c => selectedIndices.includes(c));
+            const noIncorrectSelected = selectedIndices.every(s => question.correct.includes(s));
+            
+            if (allCorrectSelected && noIncorrectSelected) {
+                if (!answers[originalIndex]) score++;
+                // Remove from incorrect questions
+                const incorrectIndex = incorrectQuestions.indexOf(originalIndex);
+                if (incorrectIndex > -1) {
+                    incorrectQuestions.splice(incorrectIndex, 1);
+                }
+            } else {
+                // Add to incorrect questions
+                if (!incorrectQuestions.includes(originalIndex)) {
+                    incorrectQuestions.push(originalIndex);
+                }
+            }
+        }
+
+        function cancelSelection() {
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            selectedOption = null;
+            answers[originalIndex] = null;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('rationale').classList.remove('show');
+            document.getElementById('cancelBtn').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+            
+            // Update score display
+            updateScoreDisplay();
+        }
+
+        function showFeedback(index) {
+            const question = filteredQuestions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackText = document.getElementById('feedbackText');
+            const rationale = document.getElementById('rationale');
+            const rationaleText = document.getElementById('rationaleText');
+            
+            if (index === question.correct) {
+                feedback.className = 'feedback correct';
+                feedbackIcon.textContent = '✅';
+                feedbackText.textContent = 'Correct! Well done.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedbackIcon.textContent = '❌';
+                feedbackText.textContent = `Incorrect. The right answer is: ${String.fromCharCode(65 + question.correct)}`;
+            }
+            
+            feedback.style.display = 'flex';
+            rationaleText.textContent = question.rationale;
+            rationale.classList.add('show');
+        }
+
+        function showFeedbackForMultiple() {
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            const feedback = document.getElementById('feedback');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackText = document.getElementById('feedbackText');
+            const rationale = document.getElementById('rationale');
+            const rationaleText = document.getElementById('rationaleText');
+            
+            const selectedIndices = answers[originalIndex] || [];
+            const allCorrectSelected = question.correct.every(c => selectedIndices.includes(c));
+            const noIncorrectSelected = selectedIndices.every(s => question.correct.includes(s));
+            
+            if (allCorrectSelected && noIncorrectSelected) {
+                feedback.className = 'feedback correct';
+                feedbackIcon.textContent = '✅';
+                feedbackText.textContent = 'Correct! All right answers selected.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedbackIcon.textContent = '❌';
+                const correctLetters = question.correct.map(c => String.fromCharCode(65 + c)).join(', ');
+                feedbackText.textContent = `Incorrect. The right answers are: ${correctLetters}`;
+            }
+            
+            feedback.style.display = 'flex';
+            rationaleText.textContent = question.rationale;
+            rationale.classList.add('show');
+        }
+
+        function nextCard() {
+            if (currentQuestion < filteredQuestions.length - 1) {
+                currentQuestion++;
+                selectedOption = null;
+                loadQuestion();
+            } else {
+                const correctCount = updateScoreDisplay();
+                
+                alert(`Quiz completed! Your score: ${correctCount}/${questions.length}\nIncorrect questions: ${incorrectQuestions.length}`);
+                
+                if (studyMode === 'incorrect' && incorrectQuestions.length > 0) {
+                    // Continue with incorrect questions
+                    filteredQuestions = questions.filter((_, index) => incorrectQuestions.includes(index));
+                    currentQuestion = 0;
+                    loadQuestion();
+                } else {
+                    // Reset to all questions
+                    currentQuestion = 0;
+                    selectedOption = null;
+                    score = 0;
+                    answers = Array(questions.length).fill(null);
+                    filteredQuestions = [...questions];
+                    setStudyMode('all');
+                }
+            }
+        }
+
+        function previousCard() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                const question = filteredQuestions[currentQuestion];
+                const originalIndex = questions.indexOf(question);
+                selectedOption = answers[originalIndex];
+                loadQuestion();
+            }
+        }
+
+        // Initialize the app
+        loadQuestion();
+    </script>
+</body>
+</html>
